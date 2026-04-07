@@ -1,0 +1,152 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ─────────────────────────────────────────────────────────────
+// ENUMS
+// ─────────────────────────────────────────────────────────────
+
+enum GlobalRole {
+  ADMIN
+  USER
+}
+
+enum ProjectPermission {
+  VIEW
+  EDIT
+}
+
+enum Shift {
+  DAY
+  AFTERNOON
+  NIGHT
+  MOONLIGHT
+}
+
+enum MeetingFrequency {
+  DAILY
+  WEEKLY
+  BI_WEEKLY
+  MONTHLY
+}
+
+enum StakeholderCategory {
+  INTERNAL
+  EXTERNAL
+}
+
+enum InfluenceLevel {
+  HIGH
+  MEDIUM
+  LOW
+}
+
+// ─────────────────────────────────────────────────────────────
+// MODELS
+// ─────────────────────────────────────────────────────────────
+
+model User {
+  id           String     @id @default(uuid())
+  email        String     @unique
+  name         String
+  passwordHash String?
+  globalRole   GlobalRole @default(USER)
+  isActive     Boolean    @default(true)
+  createdAt    DateTime   @default(now())
+  updatedAt    DateTime   @updatedAt
+
+  projectAccess   ProjectAccess[]
+  createdProjects Project[]       @relation("ProjectCreator")
+  sessions        Session[]
+
+  @@index([email])
+}
+
+model Session {
+  id           String   @id @default(uuid())
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sessionToken String   @unique
+  expires      DateTime
+
+  @@index([userId])
+}
+
+model Project {
+  id               String           @id @default(uuid())
+  name             String
+  signedFTECount   Int
+  deployedFTECount Int
+  initiationDate   DateTime
+  isNXProject      Boolean          @default(false)
+  orgNumber        String?
+  shift            Shift
+  meetingFrequency MeetingFrequency
+  createdById      String
+  createdBy        User             @relation("ProjectCreator", fields: [createdById], references: [id])
+  createdAt        DateTime         @default(now())
+  updatedAt        DateTime         @updatedAt
+
+  processes    Process[]
+  stakeholders Stakeholder[]
+  access       ProjectAccess[]
+
+  @@index([name])
+  @@index([createdById])
+}
+
+model Process {
+  id        String  @id @default(uuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name      String
+  sortOrder Int     @default(0)
+
+  @@unique([projectId, name])
+  @@index([projectId])
+}
+
+model Stakeholder {
+  id               String              @id @default(uuid())
+  projectId        String
+  project          Project             @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  name             String
+  jobTitle         String
+  email            String
+  phone            String
+  organization     String
+  category         StakeholderCategory
+  availableOnTeams Boolean             @default(false)
+  influenceLevel   InfluenceLevel
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+
+  @@index([projectId])
+}
+
+model ProjectAccess {
+  id         String            @id @default(uuid())
+  projectId  String
+  project    Project           @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  permission ProjectPermission
+  grantedAt  DateTime          @default(now())
+
+  @@unique([projectId, userId])
+  @@index([userId])
+  @@index([projectId])
+}
+
+model EmailLog {
+  id             String   @id @default(uuid())
+  triggeredAt    DateTime @default(now())
+  recipientCount Int
+  status         String
+  notes          String?
+}
