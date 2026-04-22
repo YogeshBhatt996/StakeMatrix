@@ -20,6 +20,7 @@ export default async function AdminUsersPage() {
       globalRole: true,
       isActive: true,
       createdAt: true,
+      lastLoginAt: true,
       _count: { select: { projectAccess: true } },
     },
     orderBy: { createdAt: "desc" },
@@ -47,7 +48,7 @@ export default async function AdminUsersPage() {
         <table className="w-full text-sm">
           <thead>
             <tr className="border-b border-slate-200 bg-slate-50">
-              {["Name", "Email", "Role", "Projects", "Status", "Joined", "Actions"].map((h) => (
+              {["Name", "Email", "Role", "Projects", "Status", "Joined", "Last Login", "Actions"].map((h) => (
                 <th key={h} className="text-left px-4 py-3 font-semibold text-slate-600 text-xs uppercase tracking-wide">
                   {h}
                 </th>
@@ -78,6 +79,9 @@ export default async function AdminUsersPage() {
                 </td>
                 <td className="px-4 py-3 text-slate-400 text-xs">
                   {new Date(u.createdAt).toLocaleDateString()}
+                </td>
+                <td className="px-4 py-3 text-slate-400 text-xs">
+                  {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString() : "—"}
                 </td>
                 <td className="px-4 py-3">
                   <Link

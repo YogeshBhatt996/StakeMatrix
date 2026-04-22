@@ -38,6 +38,7 @@ export function ManageUserClient({ user, allProjects, isSelf }: Props) {
   const [globalRole, setGlobalRole] = useState<"ADMIN" | "USER">(user.globalRole);
   const [savingProfile, setSavingProfile] = useState(false);
   const [profileMessage, setProfileMessage] = useState("");
+  const [sendingReset, setSendingReset] = useState(false);
 
   // Build a map: projectId -> current permission
   const [permissions, setPermissions] = useState<Record<string, Permission>>(() => {
@@ -100,6 +101,23 @@ export function ManageUserClient({ user, allProjects, isSelf }: Props) {
     }
 
     setSavingAccess((s) => ({ ...s, [projectId]: false }));
+  }
+
+  async function sendPasswordReset() {
+    if (!confirm(`Send a password reset email to ${user.email}?`)) return;
+    setSendingReset(true);
+    setProfileMessage("");
+    const res = await fetch("/api/auth/forgot-password", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: user.email }),
+    });
+    setSendingReset(false);
+    setProfileMessage(
+      res.ok
+        ? `Password reset email sent to ${user.email}.`
+        : "Failed to send reset email. Check SendGrid configuration."
+    );
   }
 
   async function deactivateUser() {
@@ -320,6 +338,24 @@ export function ManageUserClient({ user, allProjects, isSelf }: Props) {
             </tbody>
           </table>
         )}
+      </div>
+
+      {/* Password Reset */}
+      <div className="bg-white rounded-xl border border-slate-200 p-5 flex items-center justify-between">
+        <div>
+          <p className="text-sm font-medium text-slate-700">Password Reset</p>
+          <p className="text-xs text-slate-400 mt-0.5">
+            Send a password reset link to this user&apos;s email address.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={sendPasswordReset}
+          disabled={sendingReset || !isActive}
+          className="px-4 py-2 border border-slate-300 hover:bg-slate-50 text-slate-700 text-sm font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          {sendingReset ? "Sending…" : "Send Reset Link"}
+        </button>
       </div>
 
       {/* Info Footer */}

@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
 import type { SessionUser } from "@/types";
 
@@ -128,21 +129,30 @@ export function Sidebar({ open, onClose, session }: SidebarProps) {
         </nav>
 
         {/* User info at bottom */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-200">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 text-xs font-semibold">
+        <div className="absolute bottom-0 left-0 right-0 p-4 border-t border-slate-200 space-y-2">
+          <Link
+            href="/profile"
+            className="flex items-center gap-3 w-full hover:bg-slate-50 rounded-lg p-1.5 -mx-1.5 transition-colors group"
+          >
+            <div className="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-700 text-xs font-semibold flex-shrink-0">
               {user.name?.charAt(0).toUpperCase()}
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium text-slate-900 truncate">{user.name}</p>
+              <p className="text-sm font-medium text-slate-900 truncate group-hover:text-indigo-700">{user.name}</p>
               <p className="text-xs text-slate-400 truncate">{user.email}</p>
             </div>
             {isAdmin && (
-              <span className="text-xs bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded font-medium">
+              <span className="text-xs bg-indigo-100 text-indigo-700 px-1.5 py-0.5 rounded font-medium flex-shrink-0">
                 Admin
               </span>
             )}
-          </div>
+          </Link>
+          <button
+            onClick={() => signOut({ callbackUrl: "/login" })}
+            className="w-full text-left text-xs text-slate-400 hover:text-red-500 transition-colors px-1.5 py-1"
+          >
+            Sign out
+          </button>
         </div>
       </aside>
     </>

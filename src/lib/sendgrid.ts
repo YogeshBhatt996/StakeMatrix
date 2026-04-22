@@ -63,6 +63,51 @@ export async function sendMonthlyReminder(to: string, name: string): Promise<voi
   await sgMail.send(msg);
 }
 
+export async function sendPasswordResetEmail(to: string, name: string, resetUrl: string): Promise<void> {
+  const msg = {
+    to,
+    from: FROM,
+    subject: "Reset your Stakeholder Register password",
+    html: `
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <style>
+    body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f6f9; margin: 0; padding: 0; }
+    .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 8px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+    .header { background: #4f46e5; padding: 32px 40px; }
+    .header h1 { color: #ffffff; margin: 0; font-size: 22px; font-weight: 600; }
+    .body { padding: 32px 40px; color: #374151; }
+    .body p { line-height: 1.6; margin: 0 0 16px; }
+    .cta { display: inline-block; margin-top: 8px; padding: 14px 28px; background: #4f46e5; color: #ffffff; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 15px; }
+    .note { font-size: 12px; color: #9ca3af; margin-top: 20px; }
+    .footer { padding: 20px 40px; background: #f9fafb; color: #9ca3af; font-size: 12px; border-top: 1px solid #e5e7eb; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Password Reset Request</h1>
+    </div>
+    <div class="body">
+      <p>Hi ${name},</p>
+      <p>We received a request to reset your password. Click the button below to choose a new one.</p>
+      <a href="${resetUrl}" class="cta">Reset Password &rarr;</a>
+      <p class="note">This link expires in <strong>1 hour</strong>. If you did not request a password reset, you can safely ignore this email — your password will not change.</p>
+    </div>
+    <div class="footer">
+      If the button above doesn't work, copy and paste this URL into your browser:<br/>
+      <span style="word-break:break-all;">${resetUrl}</span>
+    </div>
+  </div>
+</body>
+</html>
+    `.trim(),
+  };
+  await sgMail.send(msg);
+}
+
 export async function sendInviteEmail(to: string, name: string, tempPassword: string): Promise<void> {
   const msg = {
     to,

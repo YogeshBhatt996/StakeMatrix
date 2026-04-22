@@ -5,7 +5,11 @@ export const config = {
     "/dashboard/:path*",
     "/projects/:path*",
     "/admin/:path*",
+    "/profile/:path*",
+    "/profile",
     "/api/projects/:path*",
     "/api/admin/:path*",
+    "/api/profile/:path*",
+    "/api/profile",
   ],
 };
