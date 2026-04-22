@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { getAccessibleProjectIds } from "@/lib/permissions";
 import Link from "next/link";
 import type { SessionUser } from "@/types";
+import { ExportButton } from "@/components/ExportButton";
 
 const SHIFT_COLORS: Record<string, string> = {
   DAY: "bg-sky-100 text-sky-700",
@@ -46,17 +47,20 @@ export default async function DashboardPage() {
           <h1 className="text-2xl font-semibold text-slate-900">Dashboard</h1>
           <p className="text-slate-500 text-sm mt-1">Manage stakeholder registers across all projects</p>
         </div>
-        {user.globalRole === "ADMIN" && (
-          <Link
-            href="/projects/new"
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            New Project
-          </Link>
-        )}
+        <div className="flex items-center gap-3">
+          <ExportButton />
+          {user.globalRole === "ADMIN" && (
+            <Link
+              href="/projects/new"
+              className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+            >
+              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+              </svg>
+              New Project
+            </Link>
+          )}
+        </div>
       </div>
 
       {/* Stats bar */}

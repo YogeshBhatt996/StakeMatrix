@@ -27,7 +27,7 @@ export function StakeholderTable({ stakeholders, projectId, canEdit }: Stakehold
       <table className="w-full text-sm">
         <thead>
           <tr className="border-b border-slate-200 bg-slate-50">
-            {["Name", "Title", "Organization", "Contact", "Category", "Teams", "Influence", canEdit ? "Actions" : ""].map((h) => (
+            {["Name", "Title", "Department", "Contact", "Category", "Teams", "Influence", canEdit ? "Actions" : ""].map((h) => (
               <th key={h} className="text-left px-4 py-3 font-semibold text-slate-600 text-xs uppercase tracking-wide whitespace-nowrap">
                 {h}
               </th>

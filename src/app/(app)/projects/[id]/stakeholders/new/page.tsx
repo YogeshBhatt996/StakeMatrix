@@ -158,16 +158,15 @@ export default function NewStakeholderPage() {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-1.5">
-              Organization <span className="text-red-500">*</span>
+              Department
             </label>
             <input
               type="text"
               value={organization}
               onChange={(e) => setOrganization(e.target.value)}
-              required
               maxLength={200}
               className="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
-              placeholder="Acme Corp"
+              placeholder="e.g. Finance, Operations"
             />
           </div>
 

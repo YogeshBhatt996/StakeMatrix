@@ -6,7 +6,7 @@ export const stakeholderSchema = z.object({
   jobTitle: z.string().min(1, "Job title is required").max(200),
   email: z.string().email("Valid email required"),
   phone: z.string().min(1, "Phone is required").max(50),
-  organization: z.string().min(1, "Organization is required").max(200),
+  organization: z.string().max(200).optional().default(""),
   category: z.nativeEnum(StakeholderCategory),
   availableOnTeams: z.boolean(),
   influenceLevel: z.nativeEnum(InfluenceLevel),
