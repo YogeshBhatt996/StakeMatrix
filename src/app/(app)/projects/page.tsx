@@ -50,17 +50,15 @@ export default async function ProjectsPage() {
             {projects.length} project{projects.length !== 1 ? "s" : ""} accessible to you
           </p>
         </div>
-        {user.globalRole === "ADMIN" && (
-          <Link
-            href="/projects/new"
-            className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
-          >
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
-            </svg>
-            New Project
-          </Link>
-        )}
+        <Link
+          href="/projects/new"
+          className="inline-flex items-center gap-2 px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-medium rounded-lg transition-colors"
+        >
+          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+          </svg>
+          New Project
+        </Link>
       </div>
 
       {projects.length === 0 ? (
@@ -69,7 +67,7 @@ export default async function ProjectsPage() {
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
           </svg>
           <p className="font-medium">No projects accessible</p>
-          <p className="text-sm mt-1">Projects will appear here once an admin grants you access.</p>
+          <p className="text-sm mt-1">Create a project or ask an admin to grant you access to existing ones.</p>
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-slate-200 overflow-hidden">

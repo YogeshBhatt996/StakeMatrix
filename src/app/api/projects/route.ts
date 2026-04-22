@@ -26,15 +26,12 @@ export async function GET() {
   return NextResponse.json(projects);
 }
 
-// POST /api/projects — create new project (admin only)
+// POST /api/projects — create new project (all authenticated users)
 export async function POST(req: NextRequest) {
   const session = await getServerSession(authOptions);
   if (!session?.user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
   const user = session.user as SessionUser;
-  if (user.globalRole !== "ADMIN") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
-  }
 
   const body = await req.json();
   const parsed = createProjectSchema.safeParse(body);
@@ -56,6 +53,13 @@ export async function POST(req: NextRequest) {
       createdById: user.id,
     },
   });
+
+  // Non-admin creators automatically get EDIT access to their own project
+  if (user.globalRole !== "ADMIN") {
+    await prisma.projectAccess.create({
+      data: { projectId: project.id, userId: user.id, permission: "EDIT" },
+    });
+  }
 
   return NextResponse.json(project, { status: 201 });
 }
