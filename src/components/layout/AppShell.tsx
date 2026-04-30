@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Session } from "next-auth";
 import { Sidebar } from "./Sidebar";
 import { Topbar } from "./Topbar";
+import { InactivityTimer } from "@/components/InactivityTimer";
 
 interface AppShellProps {
   children: React.ReactNode;
@@ -15,6 +16,7 @@ export function AppShell({ children, session }: AppShellProps) {
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
+      <InactivityTimer />
       {/* Sidebar */}
       <Sidebar
         open={sidebarOpen}

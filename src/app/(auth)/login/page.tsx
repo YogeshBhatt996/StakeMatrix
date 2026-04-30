@@ -49,6 +49,7 @@ function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const justRegistered = searchParams.get("registered") === "1";
+  const idleLogout     = searchParams.get("reason") === "idle";
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -151,6 +152,16 @@ function LoginForm() {
             <h2 className="text-2xl font-bold text-slate-900">Welcome back</h2>
             <p className="text-slate-500 text-sm mt-1">Sign in to your account to continue</p>
           </div>
+
+          {idleLogout && (
+            <div className="flex items-center gap-3 bg-amber-50 border border-amber-200 text-amber-700 text-sm rounded-xl px-4 py-3 mb-6">
+              <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" strokeWidth={2} />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6l4 2" />
+              </svg>
+              You were signed out after 60 minutes of inactivity. Please sign in again.
+            </div>
+          )}
 
           {justRegistered && (
             <div className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm rounded-xl px-4 py-3 mb-6">

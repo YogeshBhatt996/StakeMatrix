@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import type { SessionUser } from "@/types";
+import { ForgotPasswordTestPanel } from "@/components/admin/ForgotPasswordTestPanel";
 
 export default async function AdminUsersPage() {
   const session = await getServerSession(authOptions);
@@ -96,6 +97,8 @@ export default async function AdminUsersPage() {
           </tbody>
         </table>
       </div>
+
+      <ForgotPasswordTestPanel />
     </div>
   );
 }
