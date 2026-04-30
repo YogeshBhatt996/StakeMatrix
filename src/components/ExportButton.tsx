@@ -24,14 +24,17 @@ export function ExportButton() {
 
       // ── Sheet 1: Projects Summary ──────────────────────────
       const projectRows = projects.map((p: {
-        name: string; shift: string; isNXProject: boolean; orgNumber?: string;
-        signedFTECount: number; deployedFTECount: number; meetingFrequency: string;
-        initiationDate: string; _count: { stakeholders: number; processes: number };
+        name: string; shifts: string[]; isNXProject: boolean; isALISProject: boolean;
+        isOtherProject: boolean; orgNumber?: string; signedFTECount: number;
+        deployedFTECount: number; meetingFrequency: string; initiationDate: string;
+        additionalInfo?: string; _count: { stakeholders: number; processes: number };
         createdBy: { name: string }; createdAt: string;
       }) => ({
         "Project Name":       p.name,
-        "Shift":              SHIFT_LABELS[p.shift] ?? p.shift,
+        "Shift(s)":           (p.shifts ?? []).map((s) => SHIFT_LABELS[s] ?? s).join(", "),
         "NX Project":         p.isNXProject ? "Yes" : "No",
+        "ALIS Project":       p.isALISProject ? "Yes" : "No",
+        "Other":              p.isOtherProject ? "Yes" : "No",
         "Org Number":         p.orgNumber ?? "",
         "Signed FTEs":        p.signedFTECount,
         "Deployed FTEs":      p.deployedFTECount,
@@ -41,6 +44,7 @@ export function ExportButton() {
         "Processes":          p._count.processes,
         "Created By":         p.createdBy?.name ?? "",
         "Created At":         new Date(p.createdAt).toLocaleDateString(),
+        "Additional Info":    p.additionalInfo ?? "",
       }));
 
       const wsProjects = XLSX.utils.json_to_sheet(
@@ -48,9 +52,10 @@ export function ExportButton() {
       );
       // Column widths
       wsProjects["!cols"] = [
-        { wch: 30 }, { wch: 12 }, { wch: 12 }, { wch: 14 },
-        { wch: 12 }, { wch: 14 }, { wch: 18 }, { wch: 16 },
-        { wch: 14 }, { wch: 10 }, { wch: 20 }, { wch: 14 },
+        { wch: 30 }, { wch: 24 }, { wch: 12 }, { wch: 14 },
+        { wch: 10 }, { wch: 14 }, { wch: 12 }, { wch: 14 },
+        { wch: 18 }, { wch: 16 }, { wch: 14 }, { wch: 10 },
+        { wch: 20 }, { wch: 14 }, { wch: 36 },
       ];
       XLSX.utils.book_append_sheet(wb, wsProjects, "Projects");
 

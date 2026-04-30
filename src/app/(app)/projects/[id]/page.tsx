@@ -84,17 +84,36 @@ export default async function ProjectDetailPage({ params }: { params: { id: stri
           </div>
           <div>
             <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Shift</p>
-            <span className={`text-xs font-medium px-2 py-1 rounded-full ${SHIFT_COLORS[project.shift]}`}>
-              {SHIFT_LABELS[project.shift]}
-            </span>
+            <div className="flex flex-wrap gap-1 mt-0.5">
+              {(project.shifts ?? []).map((s) => (
+                <span key={s} className={`text-xs font-medium px-2 py-0.5 rounded-full ${SHIFT_COLORS[s]}`}>
+                  {SHIFT_LABELS[s]}
+                </span>
+              ))}
+            </div>
           </div>
           <div>
             <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Meeting Frequency</p>
             <p className="text-sm font-medium text-slate-800">{FREQ_LABELS[project.meetingFrequency]}</p>
           </div>
           <div>
-            <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">NX Project</p>
-            <p className="text-sm font-medium text-slate-800">{project.isNXProject ? `Yes (${project.orgNumber})` : "No"}</p>
+            <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Project Type</p>
+            <div className="flex flex-wrap gap-1 mt-0.5">
+              {project.isNXProject && (
+                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-blue-100 text-blue-700">
+                  NX{project.orgNumber ? ` (${project.orgNumber})` : ""}
+                </span>
+              )}
+              {project.isALISProject && (
+                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-700">ALIS</span>
+              )}
+              {project.isOtherProject && (
+                <span className="text-xs font-medium px-2 py-0.5 rounded-full bg-slate-200 text-slate-600">Other</span>
+              )}
+              {!project.isNXProject && !project.isALISProject && !project.isOtherProject && (
+                <span className="text-sm font-medium text-slate-400">—</span>
+              )}
+            </div>
           </div>
           <div>
             <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Signed FTEs</p>
@@ -109,6 +128,12 @@ export default async function ProjectDetailPage({ params }: { params: { id: stri
             <p className="text-sm font-medium text-slate-800">{project.createdBy.name}</p>
           </div>
         </div>
+        {project.additionalInfo && (
+          <div className="mt-5 pt-5 border-t border-slate-100">
+            <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Additional Information</p>
+            <p className="text-sm text-slate-700 whitespace-pre-wrap">{project.additionalInfo}</p>
+          </div>
+        )}
       </div>
 
       {/* Processes */}

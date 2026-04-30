@@ -97,9 +97,13 @@ export default async function DashboardPage() {
                 <h3 className="font-semibold text-slate-900 group-hover:text-indigo-700 transition-colors leading-tight pr-2">
                   {project.name}
                 </h3>
-                <span className={`shrink-0 text-xs font-medium px-2 py-1 rounded-full ${SHIFT_COLORS[project.shift]}`}>
-                  {project.shift.charAt(0) + project.shift.slice(1).toLowerCase()}
-                </span>
+                <div className="flex flex-wrap gap-1 shrink-0">
+                  {(project.shifts ?? []).map((s: string) => (
+                    <span key={s} className={`text-xs font-medium px-2 py-0.5 rounded-full ${SHIFT_COLORS[s]}`}>
+                      {s.charAt(0) + s.slice(1).toLowerCase()}
+                    </span>
+                  ))}
+                </div>
               </div>
 
               {project.isNXProject && project.orgNumber && (

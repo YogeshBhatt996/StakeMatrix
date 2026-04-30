@@ -87,9 +87,12 @@ model Project {
   deployedFTECount Int
   initiationDate   DateTime
   isNXProject      Boolean          @default(false)
+  isALISProject    Boolean          @default(false)
+  isOtherProject   Boolean          @default(false)
   orgNumber        String?
-  shift            Shift
+  shifts           Shift[]
   meetingFrequency MeetingFrequency
+  additionalInfo   String?
   createdById      String
   createdBy        User             @relation("ProjectCreator", fields: [createdById], references: [id])
   createdAt        DateTime         @default(now())

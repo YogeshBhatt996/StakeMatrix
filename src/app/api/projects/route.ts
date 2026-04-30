@@ -47,9 +47,12 @@ export async function POST(req: NextRequest) {
       deployedFTECount: data.deployedFTECount,
       initiationDate: new Date(data.initiationDate),
       isNXProject: data.isNXProject,
+      isALISProject: data.isALISProject,
+      isOtherProject: data.isOtherProject,
       orgNumber: data.isNXProject ? data.orgNumber ?? null : null,
-      shift: data.shift,
+      shifts: data.shifts,
       meetingFrequency: data.meetingFrequency,
+      additionalInfo: data.additionalInfo ?? null,
       createdById: user.id,
     },
   });

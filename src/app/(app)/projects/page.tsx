@@ -109,13 +109,13 @@ export default async function ProjectsPage() {
                     )}
                   </td>
                   <td className="px-4 py-3">
-                    <span
-                      className={`text-xs font-medium px-2 py-0.5 rounded-full ${
-                        SHIFT_COLORS[project.shift]
-                      }`}
-                    >
-                      {SHIFT_LABELS[project.shift]}
-                    </span>
+                    <div className="flex flex-wrap gap-1">
+                      {(project.shifts ?? []).map((s: string) => (
+                        <span key={s} className={`text-xs font-medium px-2 py-0.5 rounded-full ${SHIFT_COLORS[s]}`}>
+                          {SHIFT_LABELS[s]}
+                        </span>
+                      ))}
+                    </div>
                   </td>
                   <td className="px-4 py-3 text-slate-600">{FREQ_LABELS[project.meetingFrequency]}</td>
                   <td className="px-4 py-3 font-medium text-sky-700">{project.signedFTECount}</td>
