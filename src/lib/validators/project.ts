@@ -3,8 +3,14 @@ import { Shift, MeetingFrequency } from "@prisma/client";
 
 const projectBaseSchema = z.object({
   name: z.string().min(1, "Project name is required").max(200),
-  signedFTECount: z.number().int().min(0, "Must be 0 or greater"),
-  deployedFTECount: z.number().int().min(0, "Must be 0 or greater"),
+  signedFTECount: z
+    .number()
+    .min(0, "Must be 0 or greater")
+    .refine((v) => Math.round(v * 100) === v * 100, "Maximum 2 decimal places"),
+  deployedFTECount: z
+    .number()
+    .min(0, "Must be 0 or greater")
+    .refine((v) => Math.round(v * 100) === v * 100, "Maximum 2 decimal places"),
   initiationDate: z.string().datetime({ message: "Valid ISO date required" }),
   isNXProject: z.boolean(),
   isALISProject: z.boolean(),

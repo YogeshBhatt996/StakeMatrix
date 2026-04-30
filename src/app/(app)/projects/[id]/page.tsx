@@ -21,6 +21,11 @@ const FREQ_LABELS: Record<string, string> = {
   DAILY: "Daily", WEEKLY: "Weekly", BI_WEEKLY: "Bi-Weekly", MONTHLY: "Monthly",
 };
 
+/** Show up to 2 decimal places, trim trailing zeros */
+function fmtFTE(n: number): string {
+  return parseFloat(n.toFixed(2)).toString();
+}
+
 export default async function ProjectDetailPage({ params }: { params: { id: string } }) {
   const session = await getServerSession(authOptions);
   if (!session) redirect("/login");
@@ -117,11 +122,11 @@ export default async function ProjectDetailPage({ params }: { params: { id: stri
           </div>
           <div>
             <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Signed FTEs</p>
-            <p className="text-2xl font-bold text-sky-600">{project.signedFTECount}</p>
+            <p className="text-2xl font-bold text-sky-600">{fmtFTE(project.signedFTECount)}</p>
           </div>
           <div>
             <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Deployed FTEs</p>
-            <p className="text-2xl font-bold text-amber-600">{project.deployedFTECount}</p>
+            <p className="text-2xl font-bold text-amber-600">{fmtFTE(project.deployedFTECount)}</p>
           </div>
           <div>
             <p className="text-xs text-slate-400 uppercase tracking-wide mb-1">Created By</p>

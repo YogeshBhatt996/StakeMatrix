@@ -103,8 +103,8 @@ export default function EditProjectPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: name.trim(),
-          signedFTECount: parseInt(signedFTE, 10),
-          deployedFTECount: parseInt(deployedFTE, 10),
+          signedFTECount: parseFloat(signedFTE),
+          deployedFTECount: parseFloat(deployedFTE),
           initiationDate: new Date(initiationDate).toISOString(),
           isNXProject: isNX,
           isALISProject: isALIS,
@@ -202,7 +202,7 @@ export default function EditProjectPage() {
               <input
                 type="number" value={signedFTE}
                 onChange={(e) => setSignedFTE(e.target.value)}
-                required min={0}
+                required min={0} step="0.01"
                 className="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
             </div>
@@ -213,7 +213,7 @@ export default function EditProjectPage() {
               <input
                 type="number" value={deployedFTE}
                 onChange={(e) => setDeployedFTE(e.target.value)}
-                required min={0}
+                required min={0} step="0.01"
                 className="w-full px-3.5 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent"
               />
             </div>

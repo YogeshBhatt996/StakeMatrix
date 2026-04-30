@@ -20,6 +20,8 @@ const FREQ_LABELS: Record<string, string> = {
   MONTHLY: "Monthly",
 };
 
+const fmtFTE = (n: number) => parseFloat(n.toFixed(2)).toString();
+
 export default async function DashboardPage() {
   const session = await getServerSession(authOptions);
   const user = session!.user as SessionUser;
@@ -66,8 +68,8 @@ export default async function DashboardPage() {
         {[
           { label: "Total Projects", value: projects.length, color: "text-indigo-600" },
           { label: "Total Stakeholders", value: totalStakeholders, color: "text-emerald-600" },
-          { label: "Signed FTEs", value: totalSignedFTE, color: "text-sky-600" },
-          { label: "Deployed FTEs", value: totalDeployedFTE, color: "text-amber-600" },
+          { label: "Signed FTEs", value: fmtFTE(totalSignedFTE), color: "text-sky-600" },
+          { label: "Deployed FTEs", value: fmtFTE(totalDeployedFTE), color: "text-amber-600" },
         ].map((stat) => (
           <div key={stat.label} className="bg-white rounded-xl border border-slate-200 p-5">
             <p className="text-sm text-slate-500">{stat.label}</p>
@@ -113,11 +115,11 @@ export default async function DashboardPage() {
               <div className="grid grid-cols-2 gap-3 text-sm text-slate-600 mb-4">
                 <div>
                   <p className="text-xs text-slate-400">Signed FTE</p>
-                  <p className="font-medium">{project.signedFTECount}</p>
+                  <p className="font-medium">{fmtFTE(project.signedFTECount)}</p>
                 </div>
                 <div>
                   <p className="text-xs text-slate-400">Deployed FTE</p>
-                  <p className="font-medium">{project.deployedFTECount}</p>
+                  <p className="font-medium">{fmtFTE(project.deployedFTECount)}</p>
                 </div>
                 <div>
                   <p className="text-xs text-slate-400">Stakeholders</p>

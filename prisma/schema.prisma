@@ -83,8 +83,8 @@ model Session {
 model Project {
   id               String           @id @default(uuid())
   name             String
-  signedFTECount   Int
-  deployedFTECount Int
+  signedFTECount   Float
+  deployedFTECount Float
   initiationDate   DateTime
   isNXProject      Boolean          @default(false)
   isALISProject    Boolean          @default(false)

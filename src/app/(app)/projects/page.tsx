@@ -26,6 +26,8 @@ const FREQ_LABELS: Record<string, string> = {
   MONTHLY: "Monthly",
 };
 
+const fmtFTE = (n: number) => parseFloat(n.toFixed(2)).toString();
+
 export default async function ProjectsPage() {
   const session = await getServerSession(authOptions);
   const user = session!.user as SessionUser;
@@ -118,8 +120,8 @@ export default async function ProjectsPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3 text-slate-600">{FREQ_LABELS[project.meetingFrequency]}</td>
-                  <td className="px-4 py-3 font-medium text-sky-700">{project.signedFTECount}</td>
-                  <td className="px-4 py-3 font-medium text-amber-700">{project.deployedFTECount}</td>
+                  <td className="px-4 py-3 font-medium text-sky-700">{fmtFTE(project.signedFTECount)}</td>
+                  <td className="px-4 py-3 font-medium text-amber-700">{fmtFTE(project.deployedFTECount)}</td>
                   <td className="px-4 py-3 text-slate-600">{project._count.stakeholders}/20</td>
                   <td className="px-4 py-3 text-slate-600">{project._count.processes}/50</td>
                   <td className="px-4 py-3 text-slate-400 text-xs">
