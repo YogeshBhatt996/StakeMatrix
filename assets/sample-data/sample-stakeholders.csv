@@ -1,0 +1,9 @@
+Name,Job Title,Email,Phone,Department,Category,Available on Teams,Influence Level
+Jane Smith,Project Sponsor,jane.smith@company.com,+1 555 001 0001,Executive,INTERNAL,Yes,HIGH
+Bob Chen,IT Lead,bob.chen@company.com,+1 555 001 0002,Technology,INTERNAL,Yes,MEDIUM
+Sarah O'Brien,Operations Manager,sarah.obrien@company.com,+1 555 001 0003,Operations,INTERNAL,No,HIGH
+Tom Nguyen,Finance Analyst,tom.nguyen@company.com,+1 555 001 0004,Finance,INTERNAL,Yes,LOW
+Alice Patel,Client Director,alice.patel@client.com,+44 20 7946 0001,Client,EXTERNAL,Yes,HIGH
+David Kim,Vendor Contact,david.kim@vendor.com,+44 20 7946 0002,Procurement,EXTERNAL,No,MEDIUM
+Emily Zhang,Change Manager,emily.zhang@company.com,+1 555 001 0005,HR,INTERNAL,Yes,MEDIUM
+Carlos Ruiz,Security Officer,carlos.ruiz@company.com,+1 555 001 0006,Compliance,INTERNAL,No,LOW
